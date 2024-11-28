@@ -164,10 +164,99 @@ export default function EditProductPage({ params }: { params: Promise<{ id: stri
           )}
           
           <form onSubmit={handleSubmit(onSubmit)} className="p-6 space-y-6">
-            {/* Form fields - same as new product form */}
-            {/* ... copy the form fields from the new product form ... */}
-            
-            {/* Submit Button */}
+            {/* Name Field */}
+            <div>
+              <label htmlFor="name" className="block text-body-sm text-neutral-900 mb-2">
+                Product Name
+              </label>
+              <input
+                id="name"
+                type="text"
+                {...register('name')}
+                className="w-full px-4 py-2 border border-neutral-200 rounded-md text-body-sm"
+                placeholder="Enter product name"
+              />
+              {errors.name && (
+                <p className="mt-1 text-body-sm text-red-500">{errors.name.message}</p>
+              )}
+            </div>
+
+            {/* Category Field */}
+            <div>
+              <label htmlFor="category" className="block text-body-sm text-neutral-900 mb-2">
+                Category
+              </label>
+              <select
+                id="category"
+                {...register('category')}
+                className="w-full px-4 py-2 border border-neutral-200 rounded-md text-body-sm"
+              >
+                <option value="">Select a category</option>
+                <option value="clothing">Clothing</option>
+                <option value="safety">Safety</option>
+              </select>
+              {errors.category && (
+                <p className="mt-1 text-body-sm text-red-500">{errors.category.message}</p>
+              )}
+            </div>
+
+            {/* Description Field */}
+            <div>
+              <label htmlFor="description" className="block text-body-sm text-neutral-900 mb-2">
+                Description
+              </label>
+              <textarea
+                id="description"
+                {...register('description')}
+                rows={4}
+                className="w-full px-4 py-2 border border-neutral-200 rounded-md text-body-sm"
+                placeholder="Enter product description"
+              />
+              {errors.description && (
+                <p className="mt-1 text-body-sm text-red-500">{errors.description.message}</p>
+              )}
+            </div>
+
+            {/* Images Upload */}
+            <div>
+              <label className="block text-body-sm text-neutral-900 mb-2">
+                Product Images
+              </label>
+              <div className="space-y-4">
+                {/* Image Gallery */}
+                {uploadedImages.length > 0 && (
+                  <div className="grid grid-cols-2 gap-4 mb-4">
+                    {uploadedImages.map((url, index) => (
+                      <div key={url} className="relative aspect-video">
+                        <img
+                          src={url}
+                          alt={`Product ${index + 1}`}
+                          className="w-full h-full object-cover rounded-md"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleImageRemove(index)}
+                          className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600"
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                
+                {/* Upload Component */}
+                <CloudinaryUpload
+                  onUpload={handleImageUpload}
+                  onError={(error) => console.error(error)}
+                />
+              </div>
+              {errors.images && (
+                <p className="mt-1 text-body-sm text-red-500">{errors.images.message}</p>
+              )}
+            </div>
+
+            {/* Action Buttons */}
             <div className="pt-4 flex gap-4">
               <button
                 type="button"
