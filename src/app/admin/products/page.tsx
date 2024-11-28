@@ -2,7 +2,7 @@
 
 import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { getProducts, type Product } from '@/lib/firebase/products';
+import { getProducts, type Product, deleteProduct } from '@/lib/firebase/products';
 import { Loader2 } from 'lucide-react';
 
 export default function ProductsPage() {
@@ -174,6 +174,23 @@ export default function ProductsPage() {
                         {product.description}
                       </p>
                       <div className="mt-4 flex justify-end gap-2">
+                        <button
+                          onClick={() => {
+                            if (window.confirm('Are you sure you want to delete this product?')) {
+                              deleteProduct(product.id!)
+                                .then(() => {
+                                  fetchProducts();
+                                })
+                                .catch((error) => {
+                                  console.error('Failed to delete product:', error);
+                                  // Optionally show an error message
+                                });
+                            }
+                          }}
+                          className="px-3 py-1.5 text-body-sm text-red-600 hover:bg-red-50 rounded-md transition-colors"
+                        >
+                          Delete
+                        </button>
                         <button
                           onClick={() => router.push(`/admin/products/${product.id}/edit`)}
                           className="px-3 py-1.5 text-body-sm text-brand-primary hover:bg-neutral-50 rounded-md transition-colors"

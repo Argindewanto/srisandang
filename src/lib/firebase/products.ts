@@ -2,6 +2,10 @@ import { db } from '@/lib/firebase';
 import { 
   collection, 
   addDoc, 
+  doc,
+  getDoc,
+  updateDoc,
+  deleteDoc,
   serverTimestamp, 
   getDocs,
   query,
@@ -77,5 +81,60 @@ export async function getProducts(options?: {
   } catch (error) {
     console.error('Error fetching products:', error);
     throw new Error('Failed to fetch products');
+  }
+}
+
+export async function getProduct(id: string): Promise<Product> {
+  try {
+    const docRef = doc(db, 'products', id);
+    const docSnap = await getDoc(docRef);
+    
+    if (!docSnap.exists()) {
+      throw new Error('Product not found');
+    }
+
+    const data = docSnap.data();
+    return {
+      id: docSnap.id,
+      name: data.name,
+      description: data.description,
+      category: data.category,
+      images: data.images,
+      createdAt: data.createdAt?.toDate(),
+    };
+  } catch (error) {
+    console.error('Error fetching product:', error);
+    throw new Error('Failed to fetch product');
+  }
+}
+
+export async function updateProduct(
+  id: string, 
+  data: Omit<Product, 'id' | 'createdAt'>
+): Promise<Product> {
+  try {
+    const docRef = doc(db, 'products', id);
+    await updateDoc(docRef, {
+      ...data,
+      updatedAt: serverTimestamp(),
+    });
+
+    return {
+      id,
+      ...data,
+    };
+  } catch (error) {
+    console.error('Error updating product:', error);
+    throw new Error('Failed to update product');
+  }
+}
+
+export async function deleteProduct(id: string): Promise<void> {
+  try {
+    const docRef = doc(db, 'products', id);
+    await deleteDoc(docRef);
+  } catch (error) {
+    console.error('Error deleting product:', error);
+    throw new Error('Failed to delete product');
   }
 } 
