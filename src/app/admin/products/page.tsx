@@ -16,6 +16,7 @@ export default function ProductsPage() {
   const fetchProducts = async () => {
     try {
       setLoading(true);
+      setError('');
       const data = await getProducts({
         category: selectedCategory || undefined,
         searchQuery: searchQuery || undefined,
@@ -23,7 +24,7 @@ export default function ProductsPage() {
       setProducts(data);
     } catch (error) {
       console.error('Error fetching products:', error);
-      setError('Failed to load products');
+      setError(error instanceof Error ? error.message : 'Failed to load products');
     } finally {
       setLoading(false);
     }
