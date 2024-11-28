@@ -1,9 +1,10 @@
-import { Button } from "@/components/ui/button"
+import { FirebaseTest } from '@/components/firebase-test';
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
-      <Button>Click me</Button>
+    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+      <FirebaseTest />
+      {/* Your existing content */}
     </main>
-  )
+  );
 }
