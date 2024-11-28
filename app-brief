@@ -1,206 +1,152 @@
 /**
-* Project: SriSandang Manufacturing Website
-* Type: B2B Website
-* Target: Indonesian Manufacturing Companies
-*/
+ * Project: SriSandang Manufacturing Website
+ * Stack: Next.js + Firebase (Auth/DB) + Cloudinary (Images)
+ */
 
 const projectBrief = {
- techStack: {
-   frontend: {
-     framework: "Next.js 14 (App Router)",
-     styling: ["Tailwind CSS", "shadcn/ui"],
-     stateManagement: "Zustand",
-     formHandling: ["React Hook Form", "Zod"],
-   },
-   backend: {
-     database: "Firebase/Firestore",
-     auth: "Firebase Auth",
-     storage: "Firebase Storage"
-   }
- },
+  techStack: {
+    frontend: {
+      framework: "Next.js 14 (App Router)",
+      styling: ["Tailwind CSS", "shadcn/ui"],
+      stateManagement: "Zustand",
+      formHandling: ["React Hook Form", "Zod"],
+    },
+    backend: {
+      database: "Firebase/Firestore",
+      auth: "Firebase Auth",
+      imageStorage: "Cloudinary"
+    }
+  },
 
- // Firebase Collections
- firestoreSchema: {
-   products: {
-     id: "auto", // Auto-generated
-     name: "string",
-     description: "string",
-     category: "'clothing' | 'safety'",
-     images: "string[]", // Firebase Storage URLs
-     createdAt: "timestamp"
-   },
-   testimonials: {
-     id: "auto",
-     clientName: "string", 
-     content: "string",
-     image: "string?", // Optional Firebase Storage URL
-     createdAt: "timestamp"
-   },
-   leads: {
-     id: "auto",
-     name: "string",
-     company: "string",
-     whatsapp: "string",
-     email: "string",
-     estimatedQty: "number",
-     createdAt: "timestamp"
-   }
- },
+  // Data Schema
+  schema: {
+    products: {
+      id: "auto", // From Firestore
+      name: "string",
+      description: "string",
+      category: "'clothing' | 'safety'",
+      images: "string[]", // Cloudinary URLs
+      createdAt: "timestamp"
+    },
+    testimonials: {
+      id: "auto",
+      clientName: "string",
+      content: "string",
+      image: "string?", // Cloudinary URL
+      createdAt: "timestamp"
+    },
+    leads: {
+      id: "auto",
+      name: "string",
+      company: "string",
+      whatsapp: "string",
+      email: "string",
+      estimatedQty: "number",
+      createdAt: "timestamp"
+    }
+  },
 
- // Typography System (Shipfaster)
- typography: {
-   desktop: {
-     display: {
-       large: "text-[52px] leading-[56px] tracking-[-0.02em]",
-       small: "text-[44px] leading-[48px] tracking-[-0.02em]"
-     },
-     heading: {
-       h1: "text-[40px] leading-[48px] tracking-[-0.02em]",
-       h2: "text-[36px] leading-[44px] tracking-[-0.02em]",
-       h3: "text-[32px] leading-[40px] tracking-[-0.02em]",
-       h4: "text-[28px] leading-[36px] tracking-[-0.02em]",
-       h5: "text-[24px] leading-[32px] tracking-[-0.02em]",
-       h6: "text-[20px] leading-[28px] tracking-[-0.02em]"
-     }
-   },
-   mobile: {
-     heading: {
-       h1: "text-[36px] leading-[44px] tracking-[-0.02em]",
-       h2: "text-[32px] leading-[40px] tracking-[-0.02em]",
-       h3: "text-[28px] leading-[36px] tracking-[-0.02em]",
-       h4: "text-[24px] leading-[32px]",
-       h5: "text-[20px] leading-[28px]",
-       h6: "text-[18px] leading-[24px]"
-     }
-   },
-   paragraph: {
-     large: "text-[18px] leading-[28px]",
-     medium: "text-[16px] leading-[24px]",
-     small: "text-[14px] leading-[20px]",
-     xsmall: "text-[12px] leading-[20px]"
-   },
-   label: {
-     large: "text-[16px] leading-[18px]",
-     medium: "text-[14px] leading-[16px]",
-     small: "text-[12px] leading-[16px]",
-     xsmall: "text-[10px] leading-[14px]"
-   }
- },
+  // Required Environment Variables
+  envVars: {
+    firebase: {
+      NEXT_PUBLIC_FIREBASE_API_KEY: "",
+      NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: "",
+      NEXT_PUBLIC_FIREBASE_PROJECT_ID: "",
+      NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: "",
+      NEXT_PUBLIC_FIREBASE_APP_ID: ""
+    },
+    cloudinary: {
+      NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME: "",
+      CLOUDINARY_API_KEY: "",
+      CLOUDINARY_API_SECRET: ""
+    }
+  },
 
- pages: {
-   public: {
-     home: {
-       purpose: "Main landing for Custom Clothing service",
-       features: [
-         "Hero section with value proposition",
-         "Product showcase",
-         "Testimonials",
-         "Portfolio gallery",
-         "WhatsApp button",
-         "Pricelist button -> Lead form"
-       ]
-     },
-     safetyWear: {
-       purpose: "Landing for Safety Workwear service",
-       features: [
-         "Similar to home but safety-focused",
-         "Safety standards compliance",
-         "Industry-specific examples"
-       ]
-     },
-     leadForm: {
-       purpose: "Capture potential client information",
-       fields: [
-         "Name (required)",
-         "Company name (required)",
-         "WhatsApp number (required)",
-         "Email (required)",
-         "Estimated order quantity (required)"
-       ],
-       action: "Redirect to catalog after submission"
-     }
-   },
-   admin: {
-     routes: {
-       "/admin/login": "Admin login page",
-       "/admin": "Dashboard overview",
-       "/admin/products": "Product management",
-       "/admin/testimonials": "Testimonial management",
-       "/admin/leads": "Lead submissions"
-     }
-   }
- },
+  // Core Dependencies
+  dependencies: {
+    main: [
+      "firebase",
+      "react-firebase-hooks",
+      "cloudinary",
+      "next-cloudinary",
+      "@hookform/resolvers",
+      "react-hook-form",
+      "zod",
+      "zustand"
+    ]
+  },
 
- // Installation Steps
- setup: {
-   dependencies: {
-     main: [
-       "firebase",
-       "react-firebase-hooks",
-       "@hookform/resolvers",
-       "react-hook-form",
-       "zod",
-       "zustand"
-     ]
-   },
-   envVars: {
-     NEXT_PUBLIC_FIREBASE_API_KEY: "",
-     NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: "",
-     NEXT_PUBLIC_FIREBASE_PROJECT_ID: "",
-     NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: "",
-     NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: "",
-     NEXT_PUBLIC_FIREBASE_APP_ID: ""
-   }
- }
+  // Pages Structure
+  pages: {
+    public: {
+      "/": "Main landing (Custom Clothing)",
+      "/safety-wear": "Safety wear landing",
+      "/lead-form": "Lead capture form"
+    },
+    admin: {
+      "/admin/login": "Admin authentication",
+      "/admin": "Dashboard overview",
+      "/admin/products": "Product management",
+      "/admin/testimonials": "Testimonial management",
+      "/admin/leads": "Lead management"
+    }
+  }
 }
 
-const developmentPlan = {
- "1. Setup": {
-   priority: "High",
-   tasks: [
-     "Next.js project setup",
-     "Firebase project creation",
-     "Install dependencies",
-     "Configure environment variables",
-     "Setup Firebase initialization"
-   ]
- },
- "2. Authentication": {
-   priority: "High",
-   tasks: [
-     "Firebase Auth setup",
-     "Login page",
-     "Protected routes",
-     "Admin session management"
-   ]
- },
- "3. Admin Features": {
-   priority: "High",
-   tasks: [
-     "Admin layout",
-     "Product management CRUD",
-     "Testimonial management CRUD",
-     "Lead submissions view",
-     "Image upload system"
-   ]
- },
- "4. Public Pages": {
-   priority: "Medium",
-   tasks: [
-     "Typography components",
-     "Main landing page",
-     "Safety wear page",
-     "Lead capture form",
-     "Success/thank you pages"
-   ]
- },
- "5. Polish": {
-   priority: "Low",
-   tasks: [
-     "Mobile responsiveness",
-     "Loading states",
-     "Error handling",
-     "SEO optimization"
-   ]
- }
+const developmentPhases = {
+  phase1: {
+    name: "Project Foundation",
+    priority: "High",
+    tasks: [
+      "Next.js project setup",
+      "Firebase auth setup",
+      "Cloudinary configuration",
+      "Admin authentication",
+      "Typography system"
+    ]
+  },
+  phase2: {
+    name: "Core Admin Features",
+    priority: "High",
+    tasks: [
+      "Admin dashboard layout",
+      "Protected routes",
+      "Product management + image upload",
+      "Testimonial management",
+      "Lead management"
+    ]
+  },
+  phase3: {
+    name: "Public Pages",
+    priority: "Medium",
+    tasks: [
+      "Main landing page",
+      "Safety wear page",
+      "Lead capture form",
+      "WhatsApp integration"
+    ]
+  },
+  phase4: {
+    name: "Optimization",
+    priority: "Low",
+    tasks: [
+      "Mobile responsiveness",
+      "Performance optimization",
+      "SEO implementation",
+      "Testing & debugging"
+    ]
+  }
+}
+
+/**
+ * Initial Setup Files Structure
+ */
+const setupFiles = {
+  "src/lib/firebase.ts": "Firebase initialization",
+  "src/lib/cloudinary.ts": "Cloudinary configuration",
+  "src/components/ui/typography": "Shipfaster typography components",
+  "src/components/shared": "Reusable components",
+  "src/components/admin": "Admin-specific components",
+  "src/app/admin": "Admin routes",
+  "src/app/(public)": "Public routes"
 }
