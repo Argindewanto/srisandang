@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 import { Menu, X } from 'lucide-react';
+import { Logo } from '@/components/ui/logo';
 
 const navigation = [
   {
@@ -34,8 +35,8 @@ export function PublicNav() {
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" className="text-2xl font-bold text-brand-primary">
-              SriSandang
+            <Link href="/" className="flex items-center">
+              <Logo className="h-8 w-auto" />
             </Link>
           </div>
 

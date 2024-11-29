@@ -8,6 +8,8 @@ import { getTestimonials } from '@/lib/firebase/testimonials';
 import { getArticles } from '@/lib/firebase/articles';
 import { getLeads } from '@/lib/firebase/leads';
 import { FileText, ShoppingBag, Quote, Mail } from 'lucide-react';
+import { Logo } from '@/components/ui/logo';
+import Link from 'next/link';
 
 export default function AdminDashboard() {
   const router = useRouter();
@@ -58,7 +60,9 @@ export default function AdminDashboard() {
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
             <div className="flex items-center">
-              <span className="text-neutral-900">SriSandang Admin</span>
+              <Link href="/admin" className="flex items-center">
+                <Logo className="h-8 w-auto" />
+              </Link>
             </div>
             <div className="flex items-center gap-4">
               <button

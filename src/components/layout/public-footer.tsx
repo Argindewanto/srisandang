@@ -1,3 +1,5 @@
+import { Logo } from '@/components/ui/logo';
+
 export function PublicFooter() {
   return (
     <footer className="bg-white border-t border-neutral-200">
@@ -5,7 +7,7 @@ export function PublicFooter() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Brand Section */}
           <div className="col-span-1 md:col-span-2">
-            <h3 className="text-2xl font-bold text-brand-primary">SriSandang</h3>
+            <Logo className="h-8 w-auto mb-4" />
             <p className="mt-4 text-body-sm text-neutral-600 max-w-md">
               Providing high-quality custom clothing and safety wear solutions for businesses across Indonesia.
             </p>

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Logo } from '@/components/ui/logo';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
@@ -39,9 +40,14 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow">
-        <h2 className="text-center text-2xl font-bold">Admin Login</h2>
+    <div className="min-h-screen flex items-center justify-center bg-neutral-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8">
+        <div className="flex flex-col items-center">
+          <Logo className="h-12 w-auto mb-8" />
+          <h2 className="text-h2 text-neutral-900">
+            Admin Login
+          </h2>
+        </div>
         
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
           {error && (
