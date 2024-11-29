@@ -14,12 +14,23 @@ import {
   Banknote, 
   MapPin, 
   Wallet, 
-  Globe 
+  Globe, 
+  Shirt, 
+  Ruler, 
+  Palette, 
+  PocketKnife, 
+  Scissors, 
+  ScanLine, 
+  Paintbrush2, 
+  FileText, 
+  Package, 
+  ClipboardList 
 } from 'lucide-react';
 import { FeatureCard } from '@/components/ui/feature-card';
 import { ProductsGrid } from '@/components/ui/products-grid';
 import { getProducts } from '@/app/actions/products';
 import { SafetyBanner } from '@/components/ui/safety-banner';
+import { TechnicalFeatureCard } from '@/components/ui/technical-feature-card';
 import type { Product } from '@/lib/firebase/products';
 
 export default function CustomClothingPage() {
@@ -61,6 +72,72 @@ export default function CustomClothingPage() {
       icon: Globe,
       title: "Serba Online, Baju Pesanan Bisa Sampai di Tujuan",
       description: "Anda bisa melakukan pemesanan secara online, jalur WhatsApp atau mengirim PO di email kami bisa melayaninya."
+    }
+  ];
+
+  const technicalFeatures = [
+    {
+      icon: Shirt,
+      title: "Lengan Panjang dan Pendek",
+      description: "Bisa dibuat sebagian lengan panjang dan sebagian lagi lengan pendek."
+    },
+    {
+      icon: Ruler,
+      title: "Berbagai Ukuran Tersedia",
+      description: "Dalam satu pesanan bisa menggunkan variasi ukuran darii S - XXXXL"
+    },
+    {
+      icon: Palette,
+      title: "Bordir dan Sablon",
+      description: "Bordir / Sablon"
+    },
+    {
+      icon: PocketKnife,
+      title: "Tambah Aksesoris",
+      description: "Tambahkan kantong, tempat bolpoin atau apapun di baju pesanan Anda."
+    },
+    {
+      icon: ScanLine,
+      title: "Pilih Jenis Bahan",
+      description: "Sesuaikan bahan baju pesanan Anda sesuai dengan keinginan."
+    },
+    {
+      icon: Scissors,
+      title: "Pola Cutting Custom",
+      description: "Jika Anda ada ukuran pola sendiri, pola bisa di sesuaikan dengan keinginan."
+    }
+  ];
+
+  const serviceFeatures = [
+    {
+      icon: Paintbrush2,
+      title: "Bantuan Design",
+      description: "Membantu Anda membuat design baju sesuai dengan keinginan Anda."
+    },
+    {
+      icon: Shirt,
+      title: "Rekomendasi bahan",
+      description: "Memberikan bahan terbaik sesuai dengan fungsi pakaian dan budget Anda."
+    },
+    {
+      icon: Truck,
+      title: "Mengurus Ekspedisi",
+      description: "Kami bekerja sama ekspedisi terbaik dengan untuk volume besar."
+    },
+    {
+      icon: FileText,
+      title: "Dokumen Pemesanan",
+      description: "Kami buatkan surat penawaran, proforma invoice, kontrak kerja sama, sura jalan, dll."
+    },
+    {
+      icon: Package,
+      title: "Pengiriman Sample",
+      description: "Kami bisa mengirimkan sample ke kantor Anda."
+    },
+    {
+      icon: ClipboardList,
+      title: "Rekap Ukuran",
+      description: "Kami bantu merekap ukuran untuk merapikan pemesanan."
     }
   ];
 
@@ -238,6 +315,250 @@ export default function CustomClothingPage() {
 
       {/* Safety Banner Section */}
       <SafetyBanner />
+
+      {/* Technical Features Section */}
+      <section className="py-20">
+        {/* Header */}
+        <div className="container">
+          <div className="max-w-3xl mb-12">
+            <h2 className="text-h1 md:text-display-sm mb-4">
+              Benar-benar Custom Sesuai Kebutuhan
+            </h2>
+            <p className="text-body-lg text-neutral-600">
+              Bisa sesuai dengan kebutuhan spesifik dari perusahaan Anda.
+            </p>
+          </div>
+        </div>
+
+        {/* Features Grid - Mobile Scroll / Desktop Grid */}
+        <div className="relative w-full overflow-x-hidden no-scrollbar mb-12">
+          {/* Mobile scrollable container */}
+          <div className="flex overflow-x-auto no-scrollbar md:hidden">
+            <div className="pl-[2rem]">
+              <div className="flex gap-6">
+                {technicalFeatures.map((feature, index) => (
+                  <div 
+                    key={feature.title} 
+                    className="flex-none w-[280px]"
+                  >
+                    <TechnicalFeatureCard
+                      icon={feature.icon}
+                      title={feature.title}
+                      description={feature.description}
+                      index={index}
+                    />
+                  </div>
+                ))}
+                {/* Right padding spacer */}
+                <div className="flex-none w-6" aria-hidden="true" />
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop grid */}
+          <div className="hidden md:container md:mx-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {technicalFeatures.map((feature, index) => (
+              <TechnicalFeatureCard
+                key={feature.title}
+                icon={feature.icon}
+                title={feature.title}
+                description={feature.description}
+                index={index}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div className="container">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <WhatsAppButton className="w-full sm:w-auto" />
+            <CatalogueButton className="w-full sm:w-auto" />
+          </div>
+        </div>
+      </section>
+
+      {/* Profile Section */}
+      <section className="container py-20">
+        <motion.div
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={{
+            hidden: { opacity: 0 },
+            visible: { 
+              opacity: 1,
+              transition: {
+                duration: 0.5,
+                staggerChildren: 0.2
+              }
+            }
+          }}
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"
+        >
+          {/* Image */}
+          <motion.div 
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { 
+                opacity: 1, 
+                y: 0,
+                transition: {
+                  duration: 0.5,
+                  ease: 'easeOut'
+                }
+              }
+            }}
+            className="relative aspect-square w-full rounded-2xl overflow-hidden order-1 lg:order-1"
+          >
+            <Image
+              src="/Illustrations/teamprofilephoto.jpg"
+              alt="Tim Srisandang"
+              fill
+              className="object-cover"
+              priority
+            />
+            {/* Image overlay gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+          </motion.div>
+
+          {/* Copy */}
+          <div className="order-2 lg:order-2">
+            <motion.p 
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { 
+                  opacity: 1, 
+                  y: 0,
+                  transition: {
+                    duration: 0.5,
+                    ease: 'easeOut'
+                  }
+                }
+              }}
+              className="text-sm text-brand-primary uppercase tracking-wider mb-4"
+            >
+              Mari Berkenalan
+            </motion.p>
+            <motion.h2 
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { 
+                  opacity: 1, 
+                  y: 0,
+                  transition: {
+                    duration: 0.5,
+                    ease: 'easeOut'
+                  }
+                }
+              }}
+              className="text-h1 md:text-display-sm mb-8"
+            >
+              Tentang Srisandang
+            </motion.h2>
+            <motion.div 
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { 
+                  opacity: 1, 
+                  y: 0,
+                  transition: {
+                    duration: 0.5,
+                    ease: 'easeOut'
+                  }
+                }
+              }}
+              className="space-y-6 text-body-lg text-neutral-600 mb-8"
+            >
+              <p>
+                Srisandang resmi terdaftar di Direktorat Jenderal Pajak dengan nama CV. Srisandang Prima Indonesia. (NPWP: 95.895.525.4-532.000) CV. Srisandang Prima Indonesia Berdiri sejak 12 September 2016 yang beralamatkan di Jalan Wisma Yasa Blok F62, Baki, Sukoharjo.
+              </p>
+              <p>
+                CV. Srisandang Prima Indonesia merupakan perusahaan yang bergerak di bidang produksi pakaian (Printing, Konveksi, dan Garment) . Bertempat di Pinggir Kota Solo, kami tetap melayani seluruh permintaan dari seluruh Indonesia bahkan Asia.
+              </p>
+            </motion.div>
+            <motion.div 
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { 
+                  opacity: 1, 
+                  y: 0,
+                  transition: {
+                    duration: 0.5,
+                    ease: 'easeOut'
+                  }
+                }
+              }}
+              className="flex flex-col sm:flex-row gap-4"
+            >
+              <WhatsAppButton className="w-full sm:w-auto" />
+              <CatalogueButton className="w-full sm:w-auto" />
+            </motion.div>
+          </div>
+        </motion.div>
+      </section>
+
+      {/* Service Features Section */}
+      <section className="py-20">
+        {/* Header */}
+        <div className="container">
+          <div className="max-w-3xl mb-12">
+            <h2 className="text-h1 md:text-display-sm mb-4">
+              Memahami Kebutuhan Anda dan Melayani dengan Prima
+            </h2>
+            <p className="text-body-lg text-neutral-600">
+              Mempermudah pekerjaan anda dalam memenuhi kebutuhan pakaian perusahaan
+            </p>
+          </div>
+        </div>
+
+        {/* Features Grid - Mobile Scroll / Desktop Grid */}
+        <div className="relative w-full overflow-x-hidden no-scrollbar mb-12">
+          {/* Mobile scrollable container */}
+          <div className="flex overflow-x-auto no-scrollbar md:hidden">
+            <div className="pl-[2rem]">
+              <div className="flex gap-6">
+                {serviceFeatures.map((feature, index) => (
+                  <div 
+                    key={feature.title} 
+                    className="flex-none w-[280px]"
+                  >
+                    <TechnicalFeatureCard
+                      icon={feature.icon}
+                      title={feature.title}
+                      description={feature.description}
+                      index={index}
+                    />
+                  </div>
+                ))}
+                {/* Right padding spacer */}
+                <div className="flex-none w-6" aria-hidden="true" />
+              </div>
+            </div>
+          </div>
+
+          {/* Desktop grid */}
+          <div className="hidden md:container md:mx-auto md:grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {serviceFeatures.map((feature, index) => (
+              <TechnicalFeatureCard
+                key={feature.title}
+                icon={feature.icon}
+                title={feature.title}
+                description={feature.description}
+                index={index}
+              />
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div className="container">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <WhatsAppButton className="w-full sm:w-auto" />
+            <CatalogueButton className="w-full sm:w-auto" />
+          </div>
+        </div>
+      </section>
 
       {/* CTA Section */}
       <section className="bg-white py-24">
