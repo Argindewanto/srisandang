@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { getProducts } from '@/lib/firebase/products';
 import { getTestimonials } from '@/lib/firebase/testimonials';
 import { getArticles } from '@/lib/firebase/articles';
+import { getLeads } from '@/lib/firebase/leads';
 import { FileText, ShoppingBag, Quote, Mail } from 'lucide-react';
 
 export default function AdminDashboard() {
@@ -15,24 +16,25 @@ export default function AdminDashboard() {
     products: 0,
     testimonials: 0,
     articles: 0,
-    leads: 0,
+    newLeads: 0,
   });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [products, testimonials, articles] = await Promise.all([
+        const [products, testimonials, articles, leads] = await Promise.all([
           getProducts(),
           getTestimonials(),
           getArticles(),
+          getLeads({ status: 'new' }),
         ]);
 
         setStats({
           products: products.length,
           testimonials: testimonials.length,
           articles: articles.length,
-          leads: 0, // We'll implement this later
+          newLeads: leads.length,
         });
       } catch (error) {
         console.error('Error fetching stats:', error);
@@ -117,10 +119,10 @@ export default function AdminDashboard() {
           <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200">
             <div className="flex items-center gap-3 mb-1">
               <Mail className="h-5 w-5 text-brand-primary" />
-              <div className="text-neutral-600 text-body-sm">New Leads</div>
+              <div className="text-neutral-600 text-body-sm">Leads Baru</div>
             </div>
             <div className="text-h2 text-neutral-900">
-              {loading ? '-' : stats.leads}
+              {loading ? '-' : stats.newLeads}
             </div>
           </div>
         </div>
@@ -181,13 +183,13 @@ export default function AdminDashboard() {
               <h2 className="text-h3 text-neutral-900">Leads</h2>
             </div>
             <p className="text-body-sm text-neutral-600 mb-4">
-              View and manage lead submissions
+              {stats.newLeads} permintaan baru menunggu respon
             </p>
             <button 
               onClick={() => router.push('/admin/leads')}
               className="w-full px-4 py-2 bg-brand-primary text-white rounded-md hover:bg-brand-primary-dark transition-colors text-body-sm"
             >
-              View Leads
+              Kelola Leads
             </button>
           </div>
         </div>
