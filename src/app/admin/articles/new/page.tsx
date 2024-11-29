@@ -27,6 +27,14 @@ const articleSchema = z.object({
 
 type ArticleFormData = z.infer<typeof articleSchema>;
 
+// Add this helper function at the top of the file
+function generateSlug(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
+
 export default function NewArticlePage() {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -54,7 +62,16 @@ export default function NewArticlePage() {
     setError('');
 
     try {
-      await createArticle(data);
+      await createArticle({
+        title: data.title,
+        slug: generateSlug(data.title),
+        category: data.category,
+        status: data.status,
+        content: data.content,
+        excerpt: data.excerpt,
+        coverImage: data.coverImage,
+      });
+
       router.push('/admin/articles');
       router.refresh();
     } catch (error) {

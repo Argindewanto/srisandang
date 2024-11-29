@@ -57,7 +57,7 @@ export default function EditArticlePage({ params }: { params: Promise<{ id: stri
         excerpt: article.excerpt,
         content: article.content,
         coverImage: article.coverImage,
-        category: article.category,
+        category: article.category as 'news' | 'blog' | 'update',
         status: article.status,
       });
     } catch (error) {
