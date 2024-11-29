@@ -2,10 +2,47 @@
 
 import { useRouter } from 'next/navigation';
 import { useAuthStore } from '@/lib/stores/auth-store';
+import { useState, useEffect } from 'react';
+import { getProducts } from '@/lib/firebase/products';
+import { getTestimonials } from '@/lib/firebase/testimonials';
+import { getArticles } from '@/lib/firebase/articles';
+import { FileText, ShoppingBag, Quote, Mail } from 'lucide-react';
 
 export default function AdminDashboard() {
   const router = useRouter();
   const logout = useAuthStore((state) => state.logout);
+  const [stats, setStats] = useState({
+    products: 0,
+    testimonials: 0,
+    articles: 0,
+    leads: 0,
+  });
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const [products, testimonials, articles] = await Promise.all([
+          getProducts(),
+          getTestimonials(),
+          getArticles(),
+        ]);
+
+        setStats({
+          products: products.length,
+          testimonials: testimonials.length,
+          articles: articles.length,
+          leads: 0, // We'll implement this later
+        });
+      } catch (error) {
+        console.error('Error fetching stats:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
 
   const handleLogout = () => {
     logout();
@@ -44,30 +81,57 @@ export default function AdminDashboard() {
         <div className="mb-8">
           <h1 className="text-h2 text-neutral-900">Dashboard</h1>
           <p className="text-body-lg text-neutral-600 mt-1">
-            Manage your products, testimonials, and leads
+            Manage your products, articles, testimonials, and leads
           </p>
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200">
-            <div className="text-neutral-600 text-body-sm mb-1">Total Products</div>
-            <div className="text-h2 text-neutral-900">0</div>
+            <div className="flex items-center gap-3 mb-1">
+              <ShoppingBag className="h-5 w-5 text-brand-primary" />
+              <div className="text-neutral-600 text-body-sm">Products</div>
+            </div>
+            <div className="text-h2 text-neutral-900">
+              {loading ? '-' : stats.products}
+            </div>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200">
-            <div className="text-neutral-600 text-body-sm mb-1">Total Testimonials</div>
-            <div className="text-h2 text-neutral-900">0</div>
+            <div className="flex items-center gap-3 mb-1">
+              <FileText className="h-5 w-5 text-brand-primary" />
+              <div className="text-neutral-600 text-body-sm">Articles</div>
+            </div>
+            <div className="text-h2 text-neutral-900">
+              {loading ? '-' : stats.articles}
+            </div>
           </div>
           <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200">
-            <div className="text-neutral-600 text-body-sm mb-1">New Leads</div>
-            <div className="text-h2 text-neutral-900">0</div>
+            <div className="flex items-center gap-3 mb-1">
+              <Quote className="h-5 w-5 text-brand-primary" />
+              <div className="text-neutral-600 text-body-sm">Testimonials</div>
+            </div>
+            <div className="text-h2 text-neutral-900">
+              {loading ? '-' : stats.testimonials}
+            </div>
+          </div>
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200">
+            <div className="flex items-center gap-3 mb-1">
+              <Mail className="h-5 w-5 text-brand-primary" />
+              <div className="text-neutral-600 text-body-sm">New Leads</div>
+            </div>
+            <div className="text-h2 text-neutral-900">
+              {loading ? '-' : stats.leads}
+            </div>
           </div>
         </div>
 
         {/* Management Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
           <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200">
-            <h2 className="text-h3 text-neutral-900 mb-2">Products</h2>
+            <div className="flex items-center gap-3 mb-4">
+              <ShoppingBag className="h-6 w-6 text-brand-primary" />
+              <h2 className="text-h3 text-neutral-900">Products</h2>
+            </div>
             <p className="text-body-sm text-neutral-600 mb-4">
               Manage your product catalog
             </p>
@@ -80,7 +144,26 @@ export default function AdminDashboard() {
           </div>
 
           <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200">
-            <h2 className="text-h3 text-neutral-900 mb-2">Testimonials</h2>
+            <div className="flex items-center gap-3 mb-4">
+              <FileText className="h-6 w-6 text-brand-primary" />
+              <h2 className="text-h3 text-neutral-900">Articles</h2>
+            </div>
+            <p className="text-body-sm text-neutral-600 mb-4">
+              Manage news and blog posts
+            </p>
+            <button 
+              onClick={() => router.push('/admin/articles')}
+              className="w-full px-4 py-2 bg-brand-primary text-white rounded-md hover:bg-brand-primary-dark transition-colors text-body-sm"
+            >
+              Manage Articles
+            </button>
+          </div>
+
+          <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200">
+            <div className="flex items-center gap-3 mb-4">
+              <Quote className="h-6 w-6 text-brand-primary" />
+              <h2 className="text-h3 text-neutral-900">Testimonials</h2>
+            </div>
             <p className="text-body-sm text-neutral-600 mb-4">
               Manage client testimonials
             </p>
@@ -93,7 +176,10 @@ export default function AdminDashboard() {
           </div>
 
           <div className="bg-white p-6 rounded-lg shadow-sm border border-neutral-200">
-            <h2 className="text-h3 text-neutral-900 mb-2">Leads</h2>
+            <div className="flex items-center gap-3 mb-4">
+              <Mail className="h-6 w-6 text-brand-primary" />
+              <h2 className="text-h3 text-neutral-900">Leads</h2>
+            </div>
             <p className="text-body-sm text-neutral-600 mb-4">
               View and manage lead submissions
             </p>
