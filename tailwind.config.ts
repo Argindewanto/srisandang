@@ -27,7 +27,7 @@ const config = {
         // Brand Colors
         brand: {
           primary: "#00CF61",
-          "primary-dark": "#00b754", // Hover state
+          "primary-dark": "#00B954",
         },
         // Neutral Colors
         neutral: {

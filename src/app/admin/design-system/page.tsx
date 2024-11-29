@@ -1,5 +1,8 @@
 'use client';
 
+import { WhatsAppButton, CatalogueButton } from '@/components/ui/buttons';
+import { CTA } from '@/components/ui/cta';
+
 export default function DesignSystem() {
   return (
     <div className="min-h-screen p-8 bg-neutral-50">
@@ -15,9 +18,14 @@ export default function DesignSystem() {
               <h3 className="text-sm text-neutral-600 mb-4">Brand Colors</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="space-y-2">
-                  <div className="h-20 w-full bg-[#00CF61] rounded-md"></div>
-                  <p className="text-sm text-neutral-900">Accent</p>
+                  <div className="h-20 w-full bg-brand-primary rounded-md"></div>
+                  <p className="text-sm text-neutral-900">Primary</p>
                   <code className="text-xs text-neutral-500">#00CF61</code>
+                </div>
+                <div className="space-y-2">
+                  <div className="h-20 w-full bg-brand-primary-dark rounded-md"></div>
+                  <p className="text-sm text-neutral-900">Primary Dark</p>
+                  <code className="text-xs text-neutral-500">#00B954</code>
                 </div>
               </div>
             </div>
@@ -117,19 +125,49 @@ export default function DesignSystem() {
         <section className="mb-12 bg-white p-8 rounded-lg shadow-sm">
           <h2 className="text-xl mb-6 text-neutral-900">Components</h2>
           <div className="space-y-8">
-            {/* Buttons */}
+            {/* Basic Buttons */}
             <div>
-              <h3 className="text-sm text-neutral-600 mb-4">Buttons</h3>
+              <h3 className="text-sm text-neutral-600 mb-4">Basic Buttons</h3>
               <div className="flex flex-wrap gap-4">
-                <button className="px-4 py-2 bg-[#00CF61] text-white rounded-md hover:bg-[#00b754] transition-colors">
+                <button className="px-4 py-2 bg-brand-primary text-white rounded-md hover:bg-brand-primary-dark transition-colors">
                   Primary Button
                 </button>
                 <button className="px-4 py-2 border border-neutral-200 text-neutral-700 rounded-md hover:bg-neutral-50 transition-colors">
                   Secondary Button
                 </button>
-                <button className="px-4 py-2 text-[#00CF61] hover:bg-neutral-50 rounded-md transition-colors">
+                <button className="px-4 py-2 text-neutral-900 hover:bg-neutral-50 rounded-md transition-colors">
                   Text Button
                 </button>
+              </div>
+            </div>
+
+            {/* Custom Buttons */}
+            <div>
+              <h3 className="text-sm text-neutral-600 mb-4">Custom Buttons</h3>
+              <div className="flex flex-wrap gap-4">
+                <WhatsAppButton />
+                <CatalogueButton />
+              </div>
+            </div>
+
+            {/* CTA Section */}
+            <div>
+              <h3 className="text-sm text-neutral-600 mb-4">CTA Component</h3>
+              <div className="space-y-4">
+                <CTA />
+                <div className="mt-4">
+                  <p className="text-sm text-neutral-500">
+                    Usage:
+                  </p>
+                  <pre className="mt-2 p-4 bg-neutral-50 rounded-md overflow-x-auto">
+                    <code className="text-sm">
+                      {`import { CTA } from '@/components/ui/cta';
+
+// Then in your component:
+<CTA />`}
+                    </code>
+                  </pre>
+                </div>
               </div>
             </div>
           </div>
