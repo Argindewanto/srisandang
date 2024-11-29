@@ -2,26 +2,20 @@
 
 import React from 'react';
 import { ProductCard } from './product-card';
-import type { Product } from '@/lib/types/product';
+import type { Product } from '@/lib/firebase/products';
 
 interface ProductsGridProps {
   products: Product[];
-  category?: 'clothing' | 'safety';
 }
 
-export function ProductsGrid({ products, category }: ProductsGridProps) {
-  // Filter products by category if specified
-  const filteredProducts = category 
-    ? products.filter(product => product.category === category)
-    : products;
-
+export function ProductsGrid({ products }: ProductsGridProps) {
   return (
     <div className="relative w-full overflow-x-hidden no-scrollbar">
       {/* Mobile scrollable container */}
       <div className="flex overflow-x-auto no-scrollbar sm:hidden">
         <div className="pl-6">
           <div className="flex gap-6">
-            {filteredProducts.map((product, index) => (
+            {products.map((product, index) => (
               <div 
                 key={product.id} 
                 className="flex-none w-[240px]"
@@ -40,7 +34,7 @@ export function ProductsGrid({ products, category }: ProductsGridProps) {
 
       {/* Desktop grid */}
       <div className="hidden sm:container sm:mx-auto sm:grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {filteredProducts.map((product, index) => (
+        {products.map((product, index) => (
           <ProductCard
             key={product.id}
             product={product}

@@ -16,8 +16,12 @@ export default function HomePage() {
   useEffect(() => {
     async function loadProducts() {
       try {
-        const data = await getProducts();
-        setProducts(data);
+        const { products: data, error: fetchError } = await getProducts();
+        if (fetchError) {
+          setError(fetchError);
+        } else {
+          setProducts(data);
+        }
       } catch (error) {
         setError('Failed to load products');
         console.error('Error loading products:', error);

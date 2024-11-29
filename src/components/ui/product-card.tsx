@@ -4,7 +4,7 @@ import React from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
-import type { Product } from '@/lib/types/product';
+import type { Product } from '@/lib/firebase/products';
 
 interface ProductCardProps {
   product: Product;

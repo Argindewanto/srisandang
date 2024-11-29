@@ -46,13 +46,22 @@ export async function getProducts(options?: {
   searchQuery?: string;
 }) {
   try {
-    const constraints: QueryConstraint[] = [orderBy('createdAt', 'desc')];
-
+    let q;
+    
     if (options?.category) {
-      constraints.push(where('category', '==', options.category));
+      // If category is specified, just filter by category
+      q = query(
+        collection(db, 'products'), 
+        where('category', '==', options.category)
+      );
+    } else {
+      // If no category, order by createdAt ascending (oldest first)
+      q = query(
+        collection(db, 'products'), 
+        orderBy('createdAt', 'asc')
+      );
     }
 
-    const q = query(collection(db, 'products'), ...constraints);
     const querySnapshot = await getDocs(q);
     
     const products: Product[] = [];

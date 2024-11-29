@@ -71,8 +71,16 @@ export default function CustomClothingPage() {
   useEffect(() => {
     async function loadProducts() {
       try {
-        const data = await getProducts({ category: 'clothing' });
-        setProducts(data);
+        setLoading(true);
+        const { products: data, error: fetchError } = await getProducts({ 
+          category: 'clothing' 
+        });
+        
+        if (fetchError) {
+          setError(fetchError);
+        } else {
+          setProducts(data);
+        }
       } catch (error) {
         setError('Failed to load products');
         console.error('Error loading products:', error);
@@ -213,7 +221,7 @@ export default function CustomClothingPage() {
             {error}
           </div>
         ) : products.length > 0 ? (
-          <ProductsGrid products={products} category="clothing" />
+          <ProductsGrid products={products} />
         ) : (
           <div className="container py-12 text-center text-neutral-600">
             No products available at the moment.
