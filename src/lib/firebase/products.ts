@@ -68,7 +68,6 @@ export async function getProducts(options?: {
       });
     });
 
-    // Client-side search if searchQuery is provided
     if (options?.searchQuery) {
       const search = options.searchQuery.toLowerCase();
       return products.filter(product => 
