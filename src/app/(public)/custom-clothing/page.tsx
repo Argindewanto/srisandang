@@ -21,10 +21,17 @@ import {
   PocketKnife, 
   Scissors, 
   ScanLine, 
-  Paintbrush2, 
+  Paintbrush, 
   FileText, 
+  FileCheck, 
   Package, 
-  ClipboardList 
+  ClipboardList, 
+  MessageCircle, 
+  FileSpreadsheet, 
+  FileSignature, 
+  Camera, 
+  Receipt, 
+  PackageCheck 
 } from 'lucide-react';
 import { FeatureCard } from '@/components/ui/feature-card';
 import { ProductsGrid } from '@/components/ui/products-grid';
@@ -32,6 +39,7 @@ import { getProducts } from '@/app/actions/products';
 import { SafetyBanner } from '@/components/ui/safety-banner';
 import { TechnicalFeatureCard } from '@/components/ui/technical-feature-card';
 import type { Product } from '@/lib/firebase/products';
+import { Tabs } from '@/components/ui/tabs';
 
 export default function CustomClothingPage() {
   const containerVariants = {
@@ -110,7 +118,7 @@ export default function CustomClothingPage() {
 
   const serviceFeatures = [
     {
-      icon: Paintbrush2,
+      icon: Paintbrush,
       title: "Bantuan Design",
       description: "Membantu Anda membuat design baju sesuai dengan keinginan Anda."
     },
@@ -144,6 +152,7 @@ export default function CustomClothingPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activeTab, setActiveTab] = useState('under-50');
 
   useEffect(() => {
     async function loadProducts() {
@@ -564,74 +573,219 @@ export default function CustomClothingPage() {
       <section className="py-20 bg-neutral-50">
         <div className="container">
           {/* Header */}
-          <div className="max-w-3xl mb-16">
+          <div className="max-w-3xl mb-8">
             <p className="text-sm text-brand-primary uppercase tracking-wider mb-4">
               Cara Order
             </p>
-            <h2 className="text-h1 md:text-display-sm">
+            <h2 className="text-h1 md:text-display-sm mb-8">
               Proses Pemesanan yang Memudahkan Pelanggan
             </h2>
+            
+            {/* Tabs */}
+            <Tabs
+              tabs={[
+                { id: 'under-50', label: 'Dibawah 50 Juta' },
+                { id: 'over-50', label: 'Diatas 50 Juta' }
+              ]}
+              activeTab={activeTab}
+              onChange={setActiveTab}
+            />
           </div>
 
-          {/* Process Steps */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            {[
-              {
-                number: 1,
-                title: "Ceritakan Kebutuhan Anda",
-                description: "Anda bisa langsung menghubungi WhatsApp admin kami untuk berdiskusi"
-              },
-              {
-                number: 2,
-                title: "Kami Buatkan Penawaran",
-                description: "Kami akan mengirimkan penawaran terbaik sesuai dengan kebutuhan dan budget Anda"
-              },
-              {
-                number: 3,
-                title: "Lanjut Proses Produksi",
-                description: "Jika penawaran cocok, bisa dilakukan down payment danlanjut proses produksi"
-              },
-              {
-                number: 4,
-                title: "Pelunasan dan Pengiriman",
-                description: "Jika Barang sudah siap kirim, dilakukan pelunasan lalu barang akan dikirim"
-              }
-            ].map((step, index) => (
-              <motion.div
-                key={step.number}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                transition={{ 
-                  duration: 0.5,
-                  delay: index * 0.1,
-                  ease: 'easeOut'
-                }}
-                viewport={{ once: true }}
-                className="relative"
-              >
-                {/* Step Number */}
-                <div className="w-12 h-12 rounded-full bg-brand-primary text-white flex items-center justify-center text-xl font-semibold mb-6">
-                  {step.number}
+          {/* Tab Content */}
+          {activeTab === 'under-50' ? (
+            // Original content for orders under 50M
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+              {[
+                {
+                  number: 1,
+                  title: "Ceritakan Kebutuhan Anda",
+                  description: "Anda bisa langsung menghubungi WhatsApp admin kami untuk berdiskusi"
+                },
+                {
+                  number: 2,
+                  title: "Kami Buatkan Penawaran",
+                  description: "Kami akan mengirimkan penawaran terbaik sesuai dengan kebutuhan dan budget Anda"
+                },
+                {
+                  number: 3,
+                  title: "Lanjut Proses Produksi",
+                  description: "Jika penawaran cocok, bisa dilakukan down payment danlanjut proses produksi"
+                },
+                {
+                  number: 4,
+                  title: "Pelunasan dan Pengiriman",
+                  description: "Jika Barang sudah siap kirim, dilakukan pelunasan lalu barang akan dikirim"
+                }
+              ].map((step, index) => (
+                <motion.div
+                  key={step.number}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  transition={{ 
+                    duration: 0.5,
+                    delay: index * 0.1,
+                    ease: 'easeOut'
+                  }}
+                  viewport={{ once: true }}
+                  className="relative"
+                >
+                  {/* Step Number */}
+                  <div className="w-12 h-12 rounded-full bg-brand-primary text-white flex items-center justify-center text-xl font-semibold mb-6">
+                    {step.number}
+                  </div>
+
+                  {/* Connector Line */}
+                  {index < 3 && (
+                    <div className="hidden lg:block absolute top-6 left-12 right-0 h-[2px] bg-brand-primary/30 -translate-y-1/2" />
+                  )}
+
+                  {/* Content */}
+                  <h3 className="text-h3 mb-3">
+                    {step.title}
+                  </h3>
+                  <p className="text-body-sm text-neutral-600">
+                    {step.description}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            // Over 50M content
+            <div className="space-y-20">
+              {/* Discussion Phase */}
+              <div>
+                <h3 className="text-h4 text-neutral-600 mb-8">Diskusi</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {[
+                    {
+                      icon: MessageCircle,
+                      title: "Konsultasikan Kebutuhan",
+                      description: "Anda bisa ceritakan spesifik kebutuhan baju kerja perusahaan Anda atau bisa mengirim PO ke email kami admin@srisandang.com"
+                    },
+                    {
+                      icon: FileText,
+                      title: "Penawaran",
+                      description: "Kami mengirimkan proposal penawaran dengan spesifikasi yang di rekomendasikan sesuai kebutuhan Anda"
+                    },
+                    {
+                      icon: FileCheck,
+                      title: "Quotation",
+                      description: "Kami kirimkan Quotation dengan rincial detail produksi dan harga fix"
+                    }
+                  ].map((step, index) => (
+                    <motion.div
+                      key={step.title}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      viewport={{ once: true }}
+                      className="relative"
+                    >
+                      <div className="flex gap-4">
+                        <div className="flex-shrink-0">
+                          <step.icon className="w-8 h-8 text-brand-primary" />
+                        </div>
+                        <div>
+                          <h4 className="text-h3 mb-2">{step.title}</h4>
+                          <p className="text-body-sm text-neutral-600">{step.description}</p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
                 </div>
+              </div>
 
-                {/* Connector Line */}
-                {index < 3 && (
-                  <div className="hidden lg:block absolute top-6 left-12 right-0 h-[2px] bg-brand-primary/30 -translate-y-1/2" />
-                )}
+              {/* Pre-Production Phase */}
+              <div>
+                <h3 className="text-h4 text-neutral-600 mb-8">Pre-Produksi</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {[
+                    {
+                      icon: FileSpreadsheet,
+                      title: "Proforma Invoice",
+                      description: "Gambaran termin pembayaran dan permintaan down payment secara resmi"
+                    },
+                    {
+                      icon: FileSignature,
+                      title: "Kontrak Kerja Sama",
+                      description: "Kami siapkan perjanjian yang siap di review dan di sesuaikan. Tanda tangan bisa dilakukan online."
+                    },
+                    {
+                      icon: ClipboardList,
+                      title: "Surat Perintah Kerja",
+                      description: "Kami buatkan detail teknis untuk petunjuk produksi dengan approval client."
+                    }
+                  ].map((step, index) => (
+                    <motion.div
+                      key={step.title}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      viewport={{ once: true }}
+                      className="relative"
+                    >
+                      <div className="flex gap-4">
+                        <div className="flex-shrink-0">
+                          <step.icon className="w-8 h-8 text-brand-primary" />
+                        </div>
+                        <div>
+                          <h4 className="text-h3 mb-2">{step.title}</h4>
+                          <p className="text-body-sm text-neutral-600">{step.description}</p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
 
-                {/* Content */}
-                <h3 className="text-h3 mb-3">
-                  {step.title}
-                </h3>
-                <p className="text-body-sm text-neutral-600">
-                  {step.description}
-                </p>
-              </motion.div>
-            ))}
-          </div>
+              {/* Production Phase */}
+              <div>
+                <h3 className="text-h4 text-neutral-600 mb-8">Proses Produksi</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  {[
+                    {
+                      icon: Camera,
+                      title: "Dokumentasi Progress",
+                      description: "Foto progress pengerjaan dikirim setiap 7 hari."
+                    },
+                    {
+                      icon: Receipt,
+                      title: "Invoice",
+                      description: "Sebagai reminder untuk divisi finance Anda dan juga indikator bahwa barang mendekati jadwal pengirman."
+                    },
+                    {
+                      icon: PackageCheck,
+                      title: "Surat Jalan",
+                      description: "Petunjuk bagi orang gudang kantor anda saat menerima packing baju pesanan Anda."
+                    }
+                  ].map((step, index) => (
+                    <motion.div
+                      key={step.title}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                      viewport={{ once: true }}
+                      className="relative"
+                    >
+                      <div className="flex gap-4">
+                        <div className="flex-shrink-0">
+                          <step.icon className="w-8 h-8 text-brand-primary" />
+                        </div>
+                        <div>
+                          <h4 className="text-h3 mb-2">{step.title}</h4>
+                          <p className="text-body-sm text-neutral-600">{step.description}</p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
 
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center mt-16">
             <WhatsAppButton className="w-full sm:w-auto" />
             <CatalogueButton className="w-full sm:w-auto" />
           </div>
