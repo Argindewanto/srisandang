@@ -7,6 +7,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { createLead } from '@/lib/firebase/leads';
 import { Loader2 } from 'lucide-react';
+import Script from 'next/script';
+import { trackLeadFormConversion } from '@/components/google-tag';
 
 const leadSchema = z.object({
   name: z.string().min(2, 'Nama harus minimal 2 karakter'),
@@ -57,7 +59,20 @@ export default function CatalogueAccessPage() {
         status: 'new',
       });
 
-      router.push('/catalogue');
+      // Track Meta Pixel Lead event
+      if (typeof window !== 'undefined' && (window as any).fbq) {
+        (window as any).fbq('track', 'Lead', {
+          content_name: 'Catalogue Access Form',
+          content_category: 'Form',
+          value: data.qtyRange,
+          currency: 'IDR',
+        });
+      }
+
+      // Track Google Ads Lead conversion with the correct ID
+      trackLeadFormConversion(() => {
+        router.push('/catalogue');
+      });
 
     } catch (error) {
       console.error('Failed to submit lead:', error);
