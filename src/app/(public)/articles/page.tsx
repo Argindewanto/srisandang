@@ -111,7 +111,7 @@ export default function ArticlesPage() {
                         </span>
 
                         {/* Title */}
-                        <h2 className="text-h3 text-white mb-2 group-hover:text-brand-primary transition-colors">
+                        <h2 className="text-h4 text-white mb-2 group-hover:text-brand-primary transition-colors">
                           {article.title}
                         </h2>
 

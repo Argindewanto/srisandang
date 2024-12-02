@@ -1,11 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: [
-      'res.cloudinary.com',
-      'firebasestorage.googleapis.com'
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'res.cloudinary.com',
+      },
     ],
   },
+  poweredByHeader: false,
+  generateEtags: true,
+  compress: true,
 }
 
 module.exports = nextConfig 

@@ -1,6 +1,7 @@
 import { AnchorHTMLAttributes } from 'react';
 import { cn } from '@/lib/utils';
 import { trackWhatsAppConversion } from '@/components/google-tag';
+import { MessageCircle, ArrowRight } from 'lucide-react';
 
 interface ButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   className?: string;
@@ -36,12 +37,13 @@ export function WhatsAppButton({ className, message, ...props }: WhatsAppButtonP
       rel="noopener noreferrer"
       onClick={handleClick}
       className={cn(
-        "inline-flex items-center justify-center px-6 py-3 bg-brand-primary text-white rounded-md hover:bg-brand-primary-dark transition-colors",
+        "inline-flex items-center justify-center gap-2 px-6 py-3 bg-neutral-900 text-white rounded-md hover:bg-neutral-800 transition-colors",
         className
       )}
       {...props}
     >
-      WhatsApp Kami
+      <MessageCircle className="h-5 w-5" />
+      WhatsApp Admin
     </a>
   );
 }
@@ -51,12 +53,13 @@ export function CatalogueButton({ className, ...props }: ButtonProps) {
     <a
       href="/catalogue-access"
       className={cn(
-        "inline-flex items-center justify-center px-6 py-3 bg-white text-neutral-900 rounded-md border border-neutral-200 hover:bg-neutral-50 transition-colors",
+        "inline-flex items-center justify-center gap-2 px-6 py-3 bg-transparent border border-neutral-900 text-neutral-900 rounded-md hover:bg-neutral-50 transition-colors",
         className
       )}
       {...props}
     >
       Lihat Katalog
+      <ArrowRight className="h-5 w-5" />
     </a>
   );
 } 

@@ -1,5 +1,6 @@
 import { PublicNav } from '@/components/layout/public-nav';
 import { PublicFooter } from '@/components/layout/public-footer';
+import { WhatsAppFAB } from '@/components/ui/whatsapp-fab';
 
 export default function PublicLayout({
   children,
@@ -13,6 +14,7 @@ export default function PublicLayout({
         {children}
       </div>
       <PublicFooter />
+      <WhatsAppFAB />
     </>
   );
 } 
