@@ -1,47 +1,46 @@
-import { MessageCircle, ArrowRight } from 'lucide-react';
-import Link from 'next/link';
+import { AnchorHTMLAttributes } from 'react';
+import { cn } from '@/lib/utils';
 
-interface ButtonProps {
+interface ButtonProps extends AnchorHTMLAttributes<HTMLAnchorElement> {
   className?: string;
-  onClick?: () => void;
 }
 
-export function WhatsAppButton({ className }: ButtonProps) {
-  const openWhatsApp = () => {
-    const message = encodeURIComponent('Hallo Admin Srisandang');
-    window.open(`https://wa.me/628979279749?text=${message}`, '_blank');
-  };
+interface WhatsAppButtonProps extends ButtonProps {
+  message?: string;
+}
+
+export function WhatsAppButton({ className, message, ...props }: WhatsAppButtonProps) {
+  const defaultMessage = "Halo, saya tertarik dengan produk Srisandang";
+  const encodedMessage = encodeURIComponent(message || defaultMessage);
+  const whatsappUrl = `https://wa.me/6281228747959?text=${encodedMessage}`;
 
   return (
-    <button
-      onClick={openWhatsApp}
-      className={`
-        px-4 py-2 bg-neutral-900 hover:bg-neutral-500 
-        text-white rounded-md transition-colors
-        inline-flex items-center justify-center gap-2
-        ${className}
-      `}
+    <a
+      href={whatsappUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      className={cn(
+        "inline-flex items-center justify-center px-6 py-3 bg-brand-primary text-white rounded-md hover:bg-brand-primary-dark transition-colors",
+        className
+      )}
+      {...props}
     >
-      <MessageCircle className="h-4 w-4" />
-      <span>WhatsApp Admin</span>
-    </button>
+      WhatsApp Kami
+    </a>
   );
 }
 
-export function CatalogueButton({ className }: ButtonProps) {
+export function CatalogueButton({ className, ...props }: ButtonProps) {
   return (
-    <Link
+    <a
       href="/catalogue-access"
-      className={`
-        px-4 py-2 border border-neutral-200 
-        text-neutral-900 rounded-md 
-        hover:bg-neutral-50 transition-colors
-        inline-flex items-center justify-center gap-2
-        ${className}
-      `}
+      className={cn(
+        "inline-flex items-center justify-center px-6 py-3 bg-white text-neutral-900 rounded-md border border-neutral-200 hover:bg-neutral-50 transition-colors",
+        className
+      )}
+      {...props}
     >
-      <span>Lihat Katalog</span>
-      <ArrowRight className="h-4 w-4" />
-    </Link>
+      Lihat Katalog
+    </a>
   );
 } 

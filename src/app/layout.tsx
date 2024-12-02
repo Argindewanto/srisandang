@@ -1,31 +1,22 @@
-import './globals.css'
-import localFont from 'next/font/local'
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-})
+const inter = Inter({ subsets: ['latin'] });
 
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-})
-
-export const metadata = {
-  title: 'SriSandang Manufacturing',
-  description: 'Custom Clothing Manufacturing for Indonesian Companies',
-}
+export const metadata: Metadata = {
+  title: 'Srisandang',
+  description: 'Vendor Pengadaan Baju dan Merchandise Berkualitas',
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="min-h-screen bg-background font-sans antialiased">
-        {children}
-      </body>
+    <html lang="en">
+      <body className={inter.className}>{children}</body>
     </html>
-  )
+  );
 }
