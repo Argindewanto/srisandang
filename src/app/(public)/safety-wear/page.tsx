@@ -36,12 +36,17 @@ import {
 } from 'lucide-react';
 import { TechnicalFeatureCard } from '@/components/ui/technical-feature-card';
 import { Tabs } from '@/components/ui/tabs';
+import { TestimonialsSection } from '@/components/ui/testimonials-section';
+import { getTestimonials } from '@/lib/firebase/testimonials';
+import type { Testimonial } from '@/lib/firebase/testimonials';
 
 export default function SafetyWearPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState('under-50');
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [testimonialError, setTestimonialError] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadProducts() {
@@ -65,6 +70,20 @@ export default function SafetyWearPage() {
     }
 
     loadProducts();
+  }, []);
+
+  useEffect(() => {
+    async function loadTestimonials() {
+      try {
+        const data = await getTestimonials();
+        setTestimonials(data);
+      } catch (error) {
+        console.error('Error loading testimonials:', error);
+        setTestimonialError('Failed to load testimonials');
+      }
+    }
+
+    loadTestimonials();
   }, []);
 
   const containerVariants = {
@@ -875,7 +894,12 @@ export default function SafetyWearPage() {
         </motion.div>
       </section>
 
-      {/* Rest of the sections will go here */}
+      {/* Testimonials Section */}
+      {testimonials.length > 0 && (
+        <TestimonialsSection testimonials={testimonials} />
+      )}
+
+      {/* End of page */}
     </div>
   );
 } 

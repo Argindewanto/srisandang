@@ -4,8 +4,6 @@ import { useState, useEffect } from 'react';
 import { getArticles, type Article } from '@/lib/firebase/articles';
 import { Loader2 } from 'lucide-react';
 import Link from 'next/link';
-import { formatDistanceToNow } from 'date-fns';
-import { id } from 'date-fns/locale';
 
 export default function ArticlesPage() {
   const [articles, setArticles] = useState<Article[]>([]);
@@ -29,20 +27,6 @@ export default function ArticlesPage() {
 
     fetchArticles();
   }, []);
-
-  const formatDate = (date: Date | undefined) => {
-    if (!date) return 'Date not available';
-    
-    try {
-      return formatDistanceToNow(date, {
-        addSuffix: true,
-        locale: id,
-      });
-    } catch (error) {
-      console.error('Date formatting error:', error);
-      return 'Invalid date';
-    }
-  };
 
   return (
     <div className="min-h-screen">
@@ -121,10 +105,7 @@ export default function ArticlesPage() {
                       <p className="text-body-sm text-neutral-600 mb-4 line-clamp-2">
                         {article.excerpt}
                       </p>
-                      <div className="flex items-center justify-between">
-                        <time className="text-body-sm text-neutral-500">
-                          {formatDate(article.publishedAt)}
-                        </time>
+                      <div className="flex justify-end">
                         <span className="text-brand-primary text-body-sm group-hover:translate-x-0.5 transition-transform">
                           Read More →
                         </span>

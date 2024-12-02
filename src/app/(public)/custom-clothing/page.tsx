@@ -40,6 +40,9 @@ import { SafetyBanner } from '@/components/ui/safety-banner';
 import { TechnicalFeatureCard } from '@/components/ui/technical-feature-card';
 import type { Product } from '@/lib/firebase/products';
 import { Tabs } from '@/components/ui/tabs';
+import { TestimonialsSection } from '@/components/ui/testimonials-section';
+import { getTestimonials } from '@/lib/firebase/testimonials';
+import type { Testimonial } from '@/lib/firebase/testimonials';
 
 export default function CustomClothingPage() {
   const containerVariants = {
@@ -153,6 +156,8 @@ export default function CustomClothingPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState('under-50');
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
+  const [testimonialError, setTestimonialError] = useState<string | null>(null);
 
   useEffect(() => {
     async function loadProducts() {
@@ -176,6 +181,20 @@ export default function CustomClothingPage() {
     }
 
     loadProducts();
+  }, []);
+
+  useEffect(() => {
+    async function loadTestimonials() {
+      try {
+        const data = await getTestimonials();
+        setTestimonials(data);
+      } catch (error) {
+        console.error('Error loading testimonials:', error);
+        setTestimonialError('Failed to load testimonials');
+      }
+    }
+
+    loadTestimonials();
   }, []);
 
   return (
@@ -891,33 +910,10 @@ export default function CustomClothingPage() {
         </motion.div>
       </section>
 
-      {/* CTA Section */}
-      <section className="bg-white py-24">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-h2 text-neutral-900 mb-4">
-            Ready to Get Started?
-          </h2>
-          <p className="text-body-lg text-neutral-600 mb-8 max-w-2xl mx-auto">
-            Contact us today to discuss your custom clothing needs or request access to our full catalogue.
-          </p>
-          <div className="flex justify-center gap-4">
-            <a
-              href="https://wa.me/6281234567890"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-3 bg-brand-primary text-white rounded-md hover:bg-brand-primary-dark transition-colors"
-            >
-              Contact via WhatsApp
-            </a>
-            <a
-              href="/catalogue-access"
-              className="px-6 py-3 border border-neutral-200 text-neutral-900 rounded-md hover:bg-neutral-50 transition-colors"
-            >
-              View Catalogue
-            </a>
-          </div>
-        </div>
-      </section>
+      {/* Testimonials Section */}
+      {testimonials.length > 0 && (
+        <TestimonialsSection testimonials={testimonials} />
+      )}
     </div>
   );
 } 
