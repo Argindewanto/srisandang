@@ -424,7 +424,7 @@ export default function SafetyWearPage() {
                 className="relative aspect-square w-full h-full"
               >
                 <Image
-                  src="/illustrations/safety-feature-image-banner.webp"
+                  src="/Illustrations/safety-feature-image-banner.webp"
                   alt="Safety Workwear Features"
                   fill
                   className="object-contain"

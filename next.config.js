@@ -7,6 +7,7 @@ const nextConfig = {
         hostname: 'res.cloudinary.com',
       },
     ],
+    domains: ['res.cloudinary.com'],
   },
   poweredByHeader: false,
   generateEtags: true,
