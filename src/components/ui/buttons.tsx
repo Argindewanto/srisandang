@@ -12,7 +12,7 @@ interface WhatsAppButtonProps extends ButtonProps {
 }
 
 export function WhatsAppButton({ className, message, ...props }: WhatsAppButtonProps) {
-  const defaultMessage = "Halo, saya tertarik dengan produk Srisandang";
+  const defaultMessage = "Hallo Admin Srisandang";
   const encodedMessage = encodeURIComponent(message || defaultMessage);
   const whatsappUrl = `https://wa.me/628979279749?text=${encodedMessage}`;
 

@@ -4,7 +4,7 @@ import { MessageCircle } from 'lucide-react';
 import { trackWhatsAppConversion } from '@/components/google-tag';
 
 export function WhatsAppFAB() {
-  const defaultMessage = "Halo, saya tertarik dengan produk Srisandang";
+  const defaultMessage = "Hallo Admin Srisandang";
   const encodedMessage = encodeURIComponent(defaultMessage);
   const whatsappUrl = `https://wa.me/628979279749?text=${encodedMessage}`;
 
