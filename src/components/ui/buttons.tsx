@@ -14,7 +14,7 @@ interface WhatsAppButtonProps extends ButtonProps {
 export function WhatsAppButton({ className, message, ...props }: WhatsAppButtonProps) {
   const defaultMessage = "Halo, saya tertarik dengan produk Srisandang";
   const encodedMessage = encodeURIComponent(message || defaultMessage);
-  const whatsappUrl = `https://wa.me/6281228747959?text=${encodedMessage}`;
+  const whatsappUrl = `https://wa.me/628979279749?text=${encodedMessage}`;
 
   const handleClick = () => {
     // Track Meta Pixel Contact event

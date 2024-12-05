@@ -6,7 +6,7 @@ import { trackWhatsAppConversion } from '@/components/google-tag';
 export function WhatsAppFAB() {
   const defaultMessage = "Halo, saya tertarik dengan produk Srisandang";
   const encodedMessage = encodeURIComponent(defaultMessage);
-  const whatsappUrl = `https://wa.me/6281228747959?text=${encodedMessage}`;
+  const whatsappUrl = `https://wa.me/628979279749?text=${encodedMessage}`;
 
   const handleClick = () => {
     // Track Meta Pixel Contact event
